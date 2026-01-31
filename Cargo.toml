@@ -1,0 +1,13 @@
+[package]
+name = "advance-ichimoku-cloud"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "advance_ichimoku_cloud"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.27", features = ["extension-module"] }
+numpy = "0.27"
+ndarray = "0.16"
