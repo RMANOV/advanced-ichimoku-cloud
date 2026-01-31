@@ -176,7 +176,7 @@ low = close - np.abs(np.random.randn(N) * 0.3)
 
 # ── Run Tests ────────────────────────────────────────────────────────────────
 
-import advance_ichimoku_cloud as ic
+import advanced_ichimoku_cloud as ic
 
 failures = 0
 
@@ -191,7 +191,7 @@ def run_test(name, fn):
 
 
 print("=" * 60)
-print("  Parity Tests: advance-ichimoku-cloud")
+print("  Parity Tests: advanced-ichimoku-cloud")
 print("=" * 60)
 
 # 1. WMA

@@ -1,4 +1,4 @@
-# advance-ichimoku-cloud
+# advanced-ichimoku-cloud
 
 **Rust + PyO3 Enhanced Ichimoku Cloud with Hull MA smoothing** — a compiled, zero-copy, GIL-free technical analysis library combining classic Ichimoku Kinko Hyo with Hull Moving Average lag reduction.
 
@@ -142,12 +142,12 @@ ATR[i] = ((period-1) × ATR[i-1] + TR[i]) / period    (Wilder's smoothing)
                       Python (application layer)
                ┌──────────────────────────────────────┐
                │         Your Python code              │
-               │    import advance_ichimoku_cloud      │
+               │    import advanced_ichimoku_cloud      │
                └──────────────────┬───────────────────┘
                                   │
                                   ▼
             ┌─────────────────────────────────────────┐
-            │     advance_ichimoku_cloud (Rust)       │
+            │     advanced_ichimoku_cloud (Rust)       │
             │                                         │
             │  ┌────────────┐    ┌─────────────────┐  │
             │  │ hull.rs     │    │ hull_signals.rs │  │
@@ -215,8 +215,8 @@ Python excels at prototyping, data wrangling, and orchestration. Rust excels at 
 
 ```bash
 # 1. Clone
-git clone https://github.com/RMANOV/advance-ichimoku-cloud.git
-cd advance-ichimoku-cloud
+git clone https://github.com/RMANOV/advanced-ichimoku-cloud.git
+cd advanced-ichimoku-cloud
 
 # 2. Create virtualenv + install deps
 python -m venv .venv && source .venv/bin/activate
@@ -233,7 +233,7 @@ Expected output:
 
 ```
 ============================================================
-  Parity Tests: advance-ichimoku-cloud
+  Parity Tests: advanced-ichimoku-cloud
 ============================================================
   PASS  wma
   PASS  hullma
@@ -256,7 +256,7 @@ Expected output:
 ## Integration
 
 ```python
-from advance_ichimoku_cloud import (
+from advanced_ichimoku_cloud import (
     # Hull Moving Average
     wma,                       # Weighted Moving Average
     hullma,                    # Hull Moving Average
@@ -500,7 +500,7 @@ This library is a general-purpose **technical analysis toolkit**. The Hull-enhan
 ## Project Structure
 
 ```
-advance-ichimoku-cloud/
+advanced-ichimoku-cloud/
 ├── Cargo.toml              # Rust dependencies
 ├── pyproject.toml           # maturin build configuration
 ├── README.md
@@ -590,10 +590,10 @@ All tests use `seed=42`, `N=200` bars, `atol=1e-12`.
 # Build a portable wheel
 maturin build --release
 
-# Output: target/wheels/advance_ichimoku_cloud-0.1.0-cp3XX-...-linux_x86_64.whl
+# Output: target/wheels/advanced_ichimoku_cloud-0.1.0-cp3XX-...-linux_x86_64.whl
 
 # Install anywhere:
-pip install target/wheels/advance_ichimoku_cloud-*.whl
+pip install target/wheels/advanced_ichimoku_cloud-*.whl
 ```
 
 ---

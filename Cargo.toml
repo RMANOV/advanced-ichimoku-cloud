@@ -1,10 +1,10 @@
 [package]
-name = "advance-ichimoku-cloud"
+name = "advanced-ichimoku-cloud"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "advance_ichimoku_cloud"
+name = "advanced_ichimoku_cloud"
 crate-type = ["cdylib"]
 
 [dependencies]
