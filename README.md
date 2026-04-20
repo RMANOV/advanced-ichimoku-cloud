@@ -2,6 +2,11 @@
 
 [![CI](https://github.com/RMANOV/advanced-ichimoku-cloud/actions/workflows/CI.yml/badge.svg)](https://github.com/RMANOV/advanced-ichimoku-cloud/actions/workflows/CI.yml)
 
+## Technical deep-dives
+
+- **Medium:** [Rust + PyO3 Enhanced Ichimoku Cloud with Hull MA Smoothing](https://medium.com/@r.manov/rust-pyo3-enhanced-ichimoku-cloud-with-hull-ma-smoothing-7e8b7a52c5c6)
+- **Dev.to:** [Rust + PyO3 Enhanced Ichimoku Cloud with Hull MA Smoothing](https://dev.to/ruslan_manov/rust-pyo3-enhanced-ichimoku-cloud-with-hull-ma-smoothing-p9f)
+
 **Rust + PyO3 Enhanced Ichimoku Cloud with Hull MA smoothing** — a compiled, zero-copy, GIL-free technical analysis library combining classic Ichimoku Kinko Hyo with Hull Moving Average lag reduction.
 
 All 11 numerical functions implemented in safe Rust. Bit-exact parity with Python reference implementations (verified to `1e-10` tolerance). One-line import swap to activate.
