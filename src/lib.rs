@@ -8,7 +8,7 @@ mod indicators;
 
 /// Rust-accelerated Ichimoku Cloud with Hull MA smoothing.
 /// Enhanced technical analysis: classic + Hull-based Ichimoku components.
-#[pymodule]
+#[pymodule(gil_used = true)]
 fn advanced_ichimoku_cloud(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(hull::wma, m)?)?;
     m.add_function(wrap_pyfunction!(hull::hullma, m)?)?;
