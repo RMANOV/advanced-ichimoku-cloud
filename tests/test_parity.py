@@ -3,17 +3,20 @@ Parity tests: verify Rust implementations match pure-Python reference algorithms
 Each of the 11 exported functions is tested against its reference implementation.
 """
 
-import numpy as np
 import sys
 
+import advanced_ichimoku_cloud as ic
+import numpy as np
+
 # ── Reference Implementations ────────────────────────────────────────────────
+
 
 def ref_wma(prices, period):
     n = len(prices)
     if n < period:
         return np.full(n, np.nan)
     wma = np.empty(n)
-    wma[:period - 1] = np.nan
+    wma[: period - 1] = np.nan
     weight_sum = period * (period + 1) / 2.0
     for i in range(period - 1, n):
         weighted_sum = 0.0
@@ -90,7 +93,7 @@ def ref_ichimoku_line(high, low, period):
         result[i] = (max_high + min_low) / 2
     if period - 1 < n and period > 1:
         initial = result[period - 1]
-        result[:period - 1] = initial
+        result[: period - 1] = initial
     return result
 
 
@@ -147,6 +150,7 @@ def ref_atr(high, low, close, period=14):
 
 # ── Test Helpers ─────────────────────────────────────────────────────────────
 
+
 def assert_close(name, rust, ref, rtol=1e-10, atol=1e-12):
     """Compare arrays handling NaN positions."""
     rust = np.asarray(rust)
@@ -154,12 +158,14 @@ def assert_close(name, rust, ref, rtol=1e-10, atol=1e-12):
     assert rust.shape == ref.shape, f"{name}: shape mismatch {rust.shape} vs {ref.shape}"
     nan_mask_rust = np.isnan(rust)
     nan_mask_ref = np.isnan(ref)
-    assert np.array_equal(nan_mask_rust, nan_mask_ref), \
-        f"{name}: NaN positions differ\nRust NaN at: {np.where(nan_mask_rust)[0]}\nRef  NaN at: {np.where(nan_mask_ref)[0]}"
+    assert np.array_equal(nan_mask_rust, nan_mask_ref), (
+        f"{name}: NaN positions differ\n"
+        f"Rust NaN at: {np.where(nan_mask_rust)[0]}\n"
+        f"Ref  NaN at: {np.where(nan_mask_ref)[0]}"
+    )
     valid = ~nan_mask_rust
     if valid.any():
-        np.testing.assert_allclose(rust[valid], ref[valid], rtol=rtol, atol=atol,
-                                   err_msg=f"{name}: values differ")
+        np.testing.assert_allclose(rust[valid], ref[valid], rtol=rtol, atol=atol, err_msg=f"{name}: values differ")
 
 
 def passed(name):
@@ -176,9 +182,8 @@ low = close - np.abs(np.random.randn(N) * 0.3)
 
 # ── Run Tests ────────────────────────────────────────────────────────────────
 
-import advanced_ichimoku_cloud as ic
-
 failures = 0
+
 
 def run_test(name, fn):
     global failures
@@ -194,13 +199,17 @@ print("=" * 60)
 print("  Parity Tests: advanced-ichimoku-cloud")
 print("=" * 60)
 
+
 # 1. WMA
 def test_wma():
     for period in [5, 10, 20]:
         r = np.array(ic.wma(close, period))
         p = ref_wma(close, period)
         assert_close(f"wma(period={period})", r, p)
+
+
 run_test("wma", test_wma)
+
 
 # 2. HullMA
 def test_hullma():
@@ -208,7 +217,10 @@ def test_hullma():
         r = np.array(ic.hullma(close, period))
         p = ref_hullma(close, period)
         assert_close(f"hullma(period={period})", r, p)
+
+
 run_test("hullma", test_hullma)
+
 
 # 3. HullMA Trend
 def test_hullma_trend():
@@ -217,7 +229,10 @@ def test_hullma_trend():
     r = ic.hullma_trend(short, long)
     p = ref_hullma_trend(np.array(short), np.array(long))
     assert r == p, f"hullma_trend: {r} vs {p}"
+
+
 run_test("hullma_trend", test_hullma_trend)
+
 
 # 4. HullMA Pullback
 def test_hullma_pullback():
@@ -226,7 +241,10 @@ def test_hullma_pullback():
     p_pb, p_dr = ref_hullma_pullback(close, np.array(hlong), 0.03)
     assert r_pb == p_pb, f"pullback flag: {r_pb} vs {p_pb}"
     np.testing.assert_allclose(r_dr, p_dr, rtol=1e-10)
+
+
 run_test("hullma_pullback", test_hullma_pullback)
+
 
 # 5. HullMA Bounce
 def test_hullma_bounce():
@@ -235,7 +253,10 @@ def test_hullma_bounce():
     assert r_up == p_up, f"bounce_up: {r_up} vs {p_up}"
     assert r_dn == p_dn, f"bounce_dn: {r_dn} vs {p_dn}"
     np.testing.assert_allclose(r_str, p_str, rtol=1e-10)
+
+
 run_test("hullma_bounce", test_hullma_bounce)
+
 
 # 6. Ichimoku Line
 def test_ichimoku_line():
@@ -243,7 +264,10 @@ def test_ichimoku_line():
         r = np.array(ic.ichimoku_line(high, low, period))
         p = ref_ichimoku_line(high, low, period)
         assert_close(f"ichimoku_line(period={period})", r, p)
+
+
 run_test("ichimoku_line", test_ichimoku_line)
+
 
 # 7. Ichimoku Components
 def test_ichimoku_components():
@@ -253,7 +277,10 @@ def test_ichimoku_components():
     assert_close("ichimoku kijun", np.array(rk), pk)
     assert_close("ichimoku senkou_a", np.array(rsa), psa)
     assert_close("ichimoku senkou_b", np.array(rsb), psb)
+
+
 run_test("ichimoku_components", test_ichimoku_components)
+
 
 # 8. Ichimoku Line Hull
 def test_ichimoku_line_hull():
@@ -261,7 +288,10 @@ def test_ichimoku_line_hull():
         r = np.array(ic.ichimoku_line_hull(high, low, period))
         p = ref_ichimoku_line_hull(high, low, period)
         assert_close(f"ichimoku_line_hull(period={period})", r, p)
+
+
 run_test("ichimoku_line_hull", test_ichimoku_line_hull)
+
 
 # 9. Ichimoku Components Hull
 def test_ichimoku_components_hull():
@@ -271,7 +301,10 @@ def test_ichimoku_components_hull():
     assert_close("hull kijun", np.array(rk), pk)
     assert_close("hull senkou_a", np.array(rsa), psa)
     assert_close("hull senkou_b", np.array(rsb), psb)
+
+
 run_test("ichimoku_components_hull", test_ichimoku_components_hull)
+
 
 # 10. EMA
 def test_ema():
@@ -279,7 +312,10 @@ def test_ema():
         r = np.array(ic.ema(close, period))
         p = ref_ema(close, period)
         assert_close(f"ema(period={period})", r, p)
+
+
 run_test("ema", test_ema)
+
 
 # 11. ATR
 def test_atr():
@@ -287,13 +323,15 @@ def test_atr():
         r = np.array(ic.atr(high, low, close, period))
         p = ref_atr(high, low, close, period)
         assert_close(f"atr(period={period})", r, p)
+
+
 run_test("atr", test_atr)
 
 # ── Summary ──────────────────────────────────────────────────────────────────
 
 print("=" * 60)
 if failures == 0:
-    print(f"  ALL 11 FUNCTIONS PASS PARITY TESTS")
+    print("  ALL 11 FUNCTIONS PASS PARITY TESTS")
 else:
     print(f"  {failures} FUNCTION(S) FAILED")
 print("=" * 60)

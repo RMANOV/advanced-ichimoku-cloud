@@ -4,10 +4,28 @@ build-backend = "maturin"
 
 [project]
 name = "advanced-ichimoku-cloud"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dynamic = ["version"]
+dependencies = [
+    "numpy>=1.26.0",
+    "hypothesis>=6.0.0",
+    "cffi>=1.15.0",
+    "Cython>=3.0.0",
+    "cryptography>=41.0.0",
+    "docutils>=0.18.0",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+
+[tool.ruff.format]
+quote-style = "double"
