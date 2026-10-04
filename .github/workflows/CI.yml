@@ -19,6 +19,27 @@ permissions:
   contents: read
 
 jobs:
+  parity:
+    name: Parity (NumPy ${{ matrix.numpy }})
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        numpy: ["1.26.4", "2.4.1"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Install build and runtime dependencies
+        run: python -m pip install "maturin==1.11.5" "numpy==${{ matrix.numpy }}"
+      - name: Build the tested wheel
+        run: maturin build --locked --release --compatibility linux --out dist --interpreter python
+      - name: Install the built wheel
+        run: python -m pip install --no-deps dist/*.whl
+      - name: Run numerical parity tests
+        run: python tests/test_parity.py
+
   linux:
     runs-on: ${{ matrix.platform.runner }}
     strategy:
