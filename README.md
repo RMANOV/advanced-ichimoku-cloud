@@ -561,8 +561,8 @@ advanced-ichimoku-cloud/
 
 | Crate | Version | Role |
 |---|---|---|
-| `pyo3` | 0.27 | Python-Rust bindings, GIL management |
-| `numpy` | 0.27 | Zero-copy NumPy ndarray interop |
+| `pyo3` | 0.29 | Python-Rust bindings, GIL management |
+| `numpy` | 0.29 | Zero-copy NumPy ndarray interop |
 | `ndarray` | 0.16 | Owned N-dimensional array construction |
 
 Build tool: **maturin** 1.11+ (compiles Rust into `.so`, installs into virtualenv).
